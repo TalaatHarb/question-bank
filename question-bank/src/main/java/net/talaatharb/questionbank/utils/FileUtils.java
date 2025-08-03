@@ -2,6 +2,7 @@ package net.talaatharb.questionbank.utils;
 
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
+import net.talaatharb.questionbank.dto.QuestionDto;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -82,5 +83,37 @@ public class FileUtils {
         }
         
         return Files.readString(filePath);
+    }
+
+    /**
+     * Saves a list of questions to a JSON file in the ./data folder
+     * 
+     * @param filename the name of the JSON file to save (e.g., "questions.json")
+     * @param questions the list of questions to save
+     * @throws IOException if there's an error writing the file
+     * @throws IllegalArgumentException if the filename is null or empty, or if questions is null
+     */
+    public static void saveQuestionsToJsonFile(String filename, List<QuestionDto> questions) throws IOException {
+        if (filename == null || filename.trim().isEmpty()) {
+            throw new IllegalArgumentException("Filename cannot be null or empty");
+        }
+        
+        if (questions == null) {
+            throw new IllegalArgumentException("Questions list cannot be null");
+        }
+        
+        Path dataPath = Paths.get("./data");
+        
+        // Ensure the data directory exists
+        if (!Files.exists(dataPath)) {
+            Files.createDirectories(dataPath);
+        }
+        
+        // Convert questions to JSON string
+        String jsonContent = QuestionUtils.convertToJsonString(questions);
+        
+        // Write to file
+        Path filePath = dataPath.resolve(filename);
+        Files.writeString(filePath, jsonContent);
     }
 }
