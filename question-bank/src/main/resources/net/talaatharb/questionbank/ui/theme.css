@@ -1,3 +1,202 @@
 /**
- * Theme configuration
+ * Theme configuration for Question Bank Manager
  */
+
+/* Root styles */
+.root {
+    -fx-font-family: "Segoe UI", Arial, sans-serif;
+    -fx-font-size: 14px;
+    -fx-background-color: #f5f5f5;
+}
+
+/* Header styles */
+.header {
+    -fx-background-color: #2c3e50;
+    -fx-padding: 10px;
+}
+
+.title-label {
+    -fx-font-size: 24px;
+    -fx-font-weight: bold;
+    -fx-text-fill: white;
+}
+
+.subtitle-label {
+    -fx-font-size: 16px;
+    -fx-text-fill: #ecf0f1;
+}
+
+/* Section labels */
+.section-label {
+    -fx-font-size: 16px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #2c3e50;
+}
+
+/* Question text styles */
+.question-text {
+    -fx-font-size: 16px;
+    -fx-text-fill: #2c3e50;
+    -fx-background-color: white;
+    -fx-padding: 10px;
+    -fx-border-color: #bdc3c7;
+    -fx-border-width: 1px;
+    -fx-border-radius: 5px;
+}
+
+/* Answer text styles */
+.answer-text {
+    -fx-font-size: 14px;
+    -fx-text-fill: #34495e;
+    -fx-background-color: #f8f9fa;
+    -fx-border-color: #bdc3c7;
+    -fx-border-width: 1px;
+    -fx-border-radius: 5px;
+}
+
+/* Input field styles */
+.question-input, .answer-input, .category-input {
+    -fx-font-size: 14px;
+    -fx-background-color: white;
+    -fx-border-color: #bdc3c7;
+    -fx-border-width: 1px;
+    -fx-border-radius: 5px;
+    -fx-padding: 8px;
+}
+
+.question-input:focused, .answer-input:focused, .category-input:focused {
+    -fx-border-color: #3498db;
+    -fx-border-width: 2px;
+}
+
+/* Button styles */
+.button {
+    -fx-font-size: 14px;
+    -fx-font-weight: bold;
+    -fx-background-color: #3498db;
+    -fx-text-fill: white;
+    -fx-border-radius: 5px;
+    -fx-background-radius: 5px;
+    -fx-padding: 10px 20px;
+    -fx-cursor: hand;
+}
+
+.button:hover {
+    -fx-background-color: #2980b9;
+}
+
+.button:pressed {
+    -fx-background-color: #1f5f8b;
+}
+
+.button:disabled {
+    -fx-background-color: #bdc3c7;
+    -fx-text-fill: #7f8c8d;
+    -fx-cursor: default;
+}
+
+/* Special button styles */
+#backToListButton {
+    -fx-background-color: #95a5a6;
+}
+
+#backToListButton:hover {
+    -fx-background-color: #7f8c8d;
+}
+
+#saveButton {
+    -fx-background-color: #27ae60;
+}
+
+#saveButton:hover {
+    -fx-background-color: #229954;
+}
+
+#deleteQuestionButton {
+    -fx-background-color: #e74c3c;
+}
+
+#deleteQuestionButton:hover {
+    -fx-background-color: #c0392b;
+}
+
+#addQuestionButton {
+    -fx-background-color: #f39c12;
+}
+
+#addQuestionButton:hover {
+    -fx-background-color: #e67e22;
+}
+
+#saveBankButton {
+    -fx-background-color: #3498db;
+}
+
+#saveBankButton:hover {
+    -fx-background-color: #2980b9;
+}
+
+#createNewBankButton {
+    -fx-background-color: #27ae60;
+}
+
+#createNewBankButton:hover {
+    -fx-background-color: #229954;
+}
+
+/* ListView styles */
+.list-view {
+    -fx-background-color: white;
+    -fx-border-color: #bdc3c7;
+    -fx-border-width: 1px;
+    -fx-border-radius: 5px;
+}
+
+.list-cell {
+    -fx-padding: 10px;
+    -fx-background-color: transparent;
+    -fx-border-color: transparent;
+}
+
+.list-cell:selected {
+    -fx-background-color: #3498db;
+    -fx-text-fill: white;
+}
+
+.list-cell:hover {
+    -fx-background-color: #ecf0f1;
+}
+
+/* Status label styles */
+.status-label {
+    -fx-font-size: 12px;
+    -fx-text-fill: #7f8c8d;
+    -fx-font-style: italic;
+}
+
+/* TextArea styles */
+.text-area {
+    -fx-font-size: 14px;
+    -fx-background-color: white;
+    -fx-border-color: #bdc3c7;
+    -fx-border-width: 1px;
+    -fx-border-radius: 5px;
+}
+
+.text-area .content {
+    -fx-background-color: white;
+}
+
+/* ScrollBar styles */
+.scroll-bar {
+    -fx-background-color: #ecf0f1;
+}
+
+.scroll-bar .thumb {
+    -fx-background-color: #bdc3c7;
+    -fx-background-radius: 5px;
+}
+
+.scroll-bar .thumb:hover {
+    -fx-background-color: #95a5a6;
+}
