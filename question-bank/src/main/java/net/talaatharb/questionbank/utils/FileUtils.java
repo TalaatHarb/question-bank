@@ -3,6 +3,84 @@ package net.talaatharb.questionbank.utils;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.List;
+import java.util.stream.Collectors;
+
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class FileUtils {
+    
+    /**
+     * Lists all JSON files in the ./data folder
+     * 
+     * @return List of JSON file names (without path)
+     * @throws IOException if there's an error reading the directory
+     */
+    public static List<String> listJsonFilesInDataFolder() throws IOException {
+        Path dataPath = Paths.get("./data");
+        
+        if (!Files.exists(dataPath)) {
+            return List.of(); // Return empty list if directory doesn't exist
+        }
+        
+        return Files.list(dataPath)
+                .filter(Files::isRegularFile)
+                .filter(path -> path.toString().toLowerCase().endsWith(".json"))
+                .map(Path::getFileName)
+                .map(Path::toString)
+                .collect(Collectors.toList());
+    }
+    
+    /**
+     * Lists all JSON files in the ./data folder with full paths
+     * 
+     * @return List of JSON file paths
+     * @throws IOException if there's an error reading the directory
+     */
+    public static List<Path> listJsonFilePathsInDataFolder() throws IOException {
+        Path dataPath = Paths.get("./data");
+        
+        if (!Files.exists(dataPath)) {
+            return List.of(); // Return empty list if directory doesn't exist
+        }
+        
+        return Files.list(dataPath)
+                .filter(Files::isRegularFile)
+                .filter(path -> path.toString().toLowerCase().endsWith(".json"))
+                .collect(Collectors.toList());
+    }
+    
+    /**
+     * Loads a JSON file from the ./data folder as a string
+     * 
+     * @param filename the name of the JSON file to load (e.g., "empty.json")
+     * @return the contents of the JSON file as a string
+     * @throws IOException if the file doesn't exist or there's an error reading it
+     * @throws IllegalArgumentException if the filename is null or empty
+     */
+    public static String loadJsonFileAsString(String filename) throws IOException {
+        if (filename == null || filename.trim().isEmpty()) {
+            throw new IllegalArgumentException("Filename cannot be null or empty");
+        }
+        
+        Path dataPath = Paths.get("./data");
+        Path filePath = dataPath.resolve(filename);
+        
+        if (!Files.exists(dataPath)) {
+            throw new IOException("Data directory ./data does not exist");
+        }
+        
+        if (!Files.exists(filePath)) {
+            throw new IOException("File " + filename + " does not exist in ./data folder");
+        }
+        
+        if (!Files.isRegularFile(filePath)) {
+            throw new IOException("Path " + filename + " is not a regular file");
+        }
+        
+        return Files.readString(filePath);
+    }
 }
