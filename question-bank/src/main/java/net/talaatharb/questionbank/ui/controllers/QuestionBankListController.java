@@ -8,6 +8,9 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ListView;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextInputDialog;
+import lombok.AccessLevel;
+import lombok.Getter;
+import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 import net.talaatharb.questionbank.dto.QuestionDto;
 import net.talaatharb.questionbank.service.QuestionService;
@@ -20,21 +23,33 @@ import java.util.ResourceBundle;
 @Slf4j
 public class QuestionBankListController implements Initializable {
 
+    @Getter(value = AccessLevel.PACKAGE)
+    @Setter(value = AccessLevel.PACKAGE)
     @FXML
     private ListView<String> questionBankListView;
     
+    @Getter(value = AccessLevel.PACKAGE)
+    @Setter(value = AccessLevel.PACKAGE)
     @FXML
     private Button openBankButton;
     
+    @Getter(value = AccessLevel.PACKAGE)
+    @Setter(value = AccessLevel.PACKAGE)
     @FXML
     private Button editBankButton;
     
+    @Getter(value = AccessLevel.PACKAGE)
+    @Setter(value = AccessLevel.PACKAGE)
     @FXML
     private Button refreshButton;
     
+    @Getter(value = AccessLevel.PACKAGE)
+    @Setter(value = AccessLevel.PACKAGE)
     @FXML
     private Button createNewBankButton;
     
+    @Getter(value = AccessLevel.PACKAGE)
+    @Setter(value = AccessLevel.PACKAGE)
     @FXML
     private Label statusLabel;
     

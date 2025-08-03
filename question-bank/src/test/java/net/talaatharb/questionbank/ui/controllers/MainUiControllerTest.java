@@ -1,7 +1,11 @@
 package net.talaatharb.questionbank.ui.controllers;
 
-import javafx.scene.layout.StackPane;
-import javafx.stage.Stage;
+import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.reset;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -9,10 +13,10 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.testfx.framework.junit5.ApplicationExtension;
 import org.testfx.framework.junit5.ApplicationTest;
-import net.talaatharb.questionbank.service.QuestionService;
 
-import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.*;
+import javafx.scene.layout.StackPane;
+import javafx.stage.Stage;
+import net.talaatharb.questionbank.service.QuestionService;
 
 @ExtendWith({MockitoExtension.class, ApplicationExtension.class})
 class MainUiControllerTest extends ApplicationTest {
@@ -25,6 +29,7 @@ class MainUiControllerTest extends ApplicationTest {
     @Override
     public void start(Stage stage) {
         controller = new MainUiController();
+        controller.setMainContainer(new StackPane());
     }
 
     @BeforeEach
@@ -111,7 +116,7 @@ class MainUiControllerTest extends ApplicationTest {
     @Test
     void testSceneManagerInterfaceImplementation() {
         // Given
-        MainUiController controller = new MainUiController();
+        controller = new MainUiController();
 
         // When & Then
         assertTrue(controller instanceof SceneManager);
@@ -120,7 +125,7 @@ class MainUiControllerTest extends ApplicationTest {
     @Test
     void testControllerInitialization() {
         // Given
-        MainUiController controller = new MainUiController();
+        controller = new MainUiController();
 
         // When & Then
         assertNotNull(controller);

@@ -6,6 +6,9 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
+import lombok.AccessLevel;
+import lombok.Getter;
+import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 import net.talaatharb.questionbank.dto.QuestionDto;
 import net.talaatharb.questionbank.service.QuestionService;
@@ -18,39 +21,63 @@ import java.util.ResourceBundle;
 @Slf4j
 public class QuestionEditorController implements Initializable {
 
+    @Getter(value = AccessLevel.PACKAGE)
+    @Setter(value = AccessLevel.PACKAGE)
     @FXML
     private Label questionNumberLabel;
     
+    @Getter(value = AccessLevel.PACKAGE)
+    @Setter(value = AccessLevel.PACKAGE)
     @FXML
     private TextField questionTextField;
     
+    @Getter(value = AccessLevel.PACKAGE)
+    @Setter(value = AccessLevel.PACKAGE)
     @FXML
     private TextArea answerTextArea;
     
+    @Getter(value = AccessLevel.PACKAGE)
+    @Setter(value = AccessLevel.PACKAGE)
     @FXML
     private TextField categoryTextField;
     
+    @Getter(value = AccessLevel.PACKAGE)
+    @Setter(value = AccessLevel.PACKAGE)
     @FXML
     private Button previousButton;
     
+    @Getter(value = AccessLevel.PACKAGE)
+    @Setter(value = AccessLevel.PACKAGE)
     @FXML
     private Button nextButton;
     
+    @Getter(value = AccessLevel.PACKAGE)
+    @Setter(value = AccessLevel.PACKAGE)
     @FXML
     private Button saveButton;
     
+    @Getter(value = AccessLevel.PACKAGE)
+    @Setter(value = AccessLevel.PACKAGE)
     @FXML
     private Button addQuestionButton;
     
+    @Getter(value = AccessLevel.PACKAGE)
+    @Setter(value = AccessLevel.PACKAGE)
     @FXML
     private Button deleteQuestionButton;
     
+    @Getter(value = AccessLevel.PACKAGE)
+    @Setter(value = AccessLevel.PACKAGE)
     @FXML
     private Button saveBankButton;
     
+    @Getter(value = AccessLevel.PACKAGE)
+    @Setter(value = AccessLevel.PACKAGE)
     @FXML
     private Button backToListButton;
     
+    @Getter(value = AccessLevel.PACKAGE)
+    @Setter(value = AccessLevel.PACKAGE)
     @FXML
     private Label statusLabel;
     

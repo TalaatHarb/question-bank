@@ -3,6 +3,8 @@ package net.talaatharb.questionbank.utils;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.io.TempDir;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.CsvSource;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -15,7 +17,7 @@ class FileUtilsTest {
 
     @TempDir
     Path tempDir;
-    
+
     private Path testDataPath;
 
     @BeforeEach
@@ -23,7 +25,7 @@ class FileUtilsTest {
         // Create a test data directory in temp
         testDataPath = tempDir.resolve("data");
         Files.createDirectories(testDataPath);
-        
+
         // Create test JSON files
         Files.write(testDataPath.resolve("empty.json"), "[]".getBytes());
         Files.write(testDataPath.resolve("test1.json"), "{\"test\": \"data1\"}".getBytes());
@@ -35,7 +37,7 @@ class FileUtilsTest {
     void testListJsonFilesInDataFolder_WithJsonFiles() throws IOException {
         // Create a mock FileUtils that uses our test directory
         List<String> jsonFiles = listJsonFilesInTestDataFolder();
-        
+
         assertNotNull(jsonFiles);
         assertEquals(3, jsonFiles.size());
         assertTrue(jsonFiles.contains("empty.json"));
@@ -48,15 +50,15 @@ class FileUtilsTest {
     void testListJsonFilePathsInDataFolder_WithJsonFiles() throws IOException {
         // Create a mock FileUtils that uses our test directory
         List<Path> jsonFilePaths = listJsonFilePathsInTestDataFolder();
-        
+
         assertNotNull(jsonFilePaths);
         assertEquals(3, jsonFilePaths.size());
-        
+
         // Check that all paths end with .json
         for (Path path : jsonFilePaths) {
             assertTrue(path.toString().toLowerCase().endsWith(".json"));
         }
-        
+
         // Check specific files exist
         boolean hasEmptyJson = jsonFilePaths.stream()
                 .anyMatch(path -> path.getFileName().toString().equals("empty.json"));
@@ -64,7 +66,7 @@ class FileUtilsTest {
                 .anyMatch(path -> path.getFileName().toString().equals("test1.json"));
         boolean hasTest2Json = jsonFilePaths.stream()
                 .anyMatch(path -> path.getFileName().toString().equals("test2.json"));
-        
+
         assertTrue(hasEmptyJson);
         assertTrue(hasTest1Json);
         assertTrue(hasTest2Json);
@@ -75,9 +77,9 @@ class FileUtilsTest {
         // Create an empty data directory
         Path emptyDataPath = tempDir.resolve("emptyData");
         Files.createDirectories(emptyDataPath);
-        
+
         List<String> jsonFiles = listJsonFilesInDirectory(emptyDataPath);
-        
+
         assertNotNull(jsonFiles);
         assertTrue(jsonFiles.isEmpty());
     }
@@ -87,9 +89,9 @@ class FileUtilsTest {
         // Create an empty data directory
         Path emptyDataPath = tempDir.resolve("emptyData");
         Files.createDirectories(emptyDataPath);
-        
+
         List<Path> jsonFilePaths = listJsonFilePathsInDirectory(emptyDataPath);
-        
+
         assertNotNull(jsonFilePaths);
         assertTrue(jsonFilePaths.isEmpty());
     }
@@ -99,10 +101,11 @@ class FileUtilsTest {
         // Add some non-JSON files to ensure they're filtered out
         Files.write(testDataPath.resolve("document.pdf"), "PDF content".getBytes());
         Files.write(testDataPath.resolve("image.png"), "PNG content".getBytes());
-        Files.write(testDataPath.resolve("data.JSON"), "{\"uppercase\": \"extension\"}".getBytes()); // Test case insensitivity
-        
+        Files.write(testDataPath.resolve("data.JSON"), "{\"uppercase\": \"extension\"}".getBytes()); // Test case
+                                                                                                     // insensitivity
+
         List<String> jsonFiles = listJsonFilesInTestDataFolder();
-        
+
         assertNotNull(jsonFiles);
         assertEquals(4, jsonFiles.size()); // 3 original + 1 uppercase .JSON
         assertTrue(jsonFiles.contains("empty.json"));
@@ -114,31 +117,17 @@ class FileUtilsTest {
         assertFalse(jsonFiles.contains("notjson.txt"));
     }
 
-    @Test
-    void testLoadJsonFileAsString_WithEmptyJson() throws IOException {
-        // Test loading the empty.json file
-        String content = loadJsonFileAsStringFromTestData("empty.json");
-        
-        assertNotNull(content);
-        assertEquals("[]", content.trim());
-    }
+    @CsvSource({
+        "empty.json,[]",
+        "test1.json,{\"test\": \"data1\"}",
+        "notjson.txt,This is not a JSON file"
+    })
+    @ParameterizedTest
+    void testLoadJsonFileAsString(String fileName, String expectedContent) throws IOException {
+        String content = loadJsonFileAsStringFromTestData(fileName);
 
-    @Test
-    void testLoadJsonFileAsString_WithTestJson() throws IOException {
-        // Test loading a test JSON file
-        String content = loadJsonFileAsStringFromTestData("test1.json");
-        
         assertNotNull(content);
-        assertEquals("{\"test\": \"data1\"}", content.trim());
-    }
-
-    @Test
-    void testLoadJsonFileAsString_WithNonJsonFile() throws IOException {
-        // Test loading a non-JSON file (should still work)
-        String content = loadJsonFileAsStringFromTestData("notjson.txt");
-        
-        assertNotNull(content);
-        assertEquals("This is not a JSON file", content.trim());
+        assertEquals(expectedContent, content.trim());
     }
 
     @Test
@@ -178,7 +167,7 @@ class FileUtilsTest {
         // Create a directory with the same name as a file
         Path directoryPath = testDataPath.resolve("directory.json");
         Files.createDirectories(directoryPath);
-        
+
         // Test loading a directory (should fail)
         assertThrows(IOException.class, () -> {
             loadJsonFileAsStringFromTestData("directory.json");
@@ -189,10 +178,10 @@ class FileUtilsTest {
     void testActualLoadJsonFileAsString_WithEmptyJson() throws IOException {
         // This test uses the actual FileUtils method with the real empty.json file
         // It will only work if the empty.json file exists in the ./data folder
-        
+
         try {
             String content = FileUtils.loadJsonFileAsString("empty.json");
-            
+
             assertNotNull(content);
             assertEquals("[]", content.trim());
         } catch (IOException e) {
@@ -206,7 +195,7 @@ class FileUtilsTest {
         if (!Files.exists(testDataPath)) {
             return List.of();
         }
-        
+
         return Files.list(testDataPath)
                 .filter(Files::isRegularFile)
                 .filter(path -> path.toString().toLowerCase().endsWith(".json"))
@@ -214,23 +203,23 @@ class FileUtilsTest {
                 .map(Path::toString)
                 .toList();
     }
-    
+
     private List<Path> listJsonFilePathsInTestDataFolder() throws IOException {
         if (!Files.exists(testDataPath)) {
             return List.of();
         }
-        
+
         return Files.list(testDataPath)
                 .filter(Files::isRegularFile)
                 .filter(path -> path.toString().toLowerCase().endsWith(".json"))
                 .toList();
     }
-    
+
     private List<String> listJsonFilesInDirectory(Path directory) throws IOException {
         if (!Files.exists(directory)) {
             return List.of();
         }
-        
+
         return Files.list(directory)
                 .filter(Files::isRegularFile)
                 .filter(path -> path.toString().toLowerCase().endsWith(".json"))
@@ -238,37 +227,37 @@ class FileUtilsTest {
                 .map(Path::toString)
                 .toList();
     }
-    
+
     private List<Path> listJsonFilePathsInDirectory(Path directory) throws IOException {
         if (!Files.exists(directory)) {
             return List.of();
         }
-        
+
         return Files.list(directory)
                 .filter(Files::isRegularFile)
                 .filter(path -> path.toString().toLowerCase().endsWith(".json"))
                 .toList();
     }
-    
+
     private String loadJsonFileAsStringFromTestData(String filename) throws IOException {
         if (filename == null || filename.trim().isEmpty()) {
             throw new IllegalArgumentException("Filename cannot be null or empty");
         }
-        
+
         if (!Files.exists(testDataPath)) {
             throw new IOException("Data directory does not exist");
         }
-        
+
         Path filePath = testDataPath.resolve(filename);
-        
+
         if (!Files.exists(filePath)) {
             throw new IOException("File " + filename + " does not exist in data folder");
         }
-        
+
         if (!Files.isRegularFile(filePath)) {
             throw new IOException("Path " + filename + " is not a regular file");
         }
-        
+
         return Files.readString(filePath);
     }
-} 
+}

@@ -1,9 +1,14 @@
 package net.talaatharb.questionbank.ui.controllers;
 
-import javafx.collections.ObservableList;
-import javafx.scene.control.Button;
-import javafx.scene.control.ListView;
-import javafx.scene.control.Label;
+import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.reset;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
+
+import java.util.Arrays;
+import java.util.List;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -11,17 +16,14 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.testfx.framework.junit5.ApplicationExtension;
 import org.testfx.framework.junit5.ApplicationTest;
-import javafx.scene.control.TextInputDialog;
+
+import javafx.application.Platform;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.control.ListView;
 import javafx.stage.Stage;
 import net.talaatharb.questionbank.dto.QuestionDto;
 import net.talaatharb.questionbank.service.QuestionService;
-
-import java.util.Arrays;
-import java.util.List;
-import java.util.Optional;
-
-import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.*;
 
 @ExtendWith({MockitoExtension.class, ApplicationExtension.class})
 class QuestionBankListControllerTest extends ApplicationTest {
@@ -37,6 +39,12 @@ class QuestionBankListControllerTest extends ApplicationTest {
     @Override
     public void start(Stage stage) {
         controller = new QuestionBankListController();
+        controller.setStatusLabel(new Label());
+        controller.setCreateNewBankButton(new Button());
+        controller.setEditBankButton(new Button());
+        controller.setOpenBankButton(new Button());
+        controller.setQuestionBankListView(new ListView<>());
+        controller.setRefreshButton(new Button());
         controller.setQuestionService(questionService);
         controller.setSceneManager(sceneManager);
     }
@@ -48,7 +56,7 @@ class QuestionBankListControllerTest extends ApplicationTest {
     }
 
     @Test
-    void testSetQuestionService_ShouldRefreshQuestionBanks() throws Exception {
+    void testSetQuestionService_ShouldRefreshQuestionBanks() {
         // Given
         List<String> mockBanks = Arrays.asList("bank1.json", "bank2.json");
         when(questionService.getQuestionBanks()).thenReturn(mockBanks);
@@ -61,7 +69,7 @@ class QuestionBankListControllerTest extends ApplicationTest {
     }
 
     @Test
-    void testRefreshQuestionBanks_WithValidBanks() throws Exception {
+    void testRefreshQuestionBanks_WithValidBanks() {
         // Given
         List<String> mockBanks = Arrays.asList("java-questions.json", "spring-questions.json");
         when(questionService.getQuestionBanks()).thenReturn(mockBanks);
@@ -76,7 +84,7 @@ class QuestionBankListControllerTest extends ApplicationTest {
     }
 
     @Test
-    void testRefreshQuestionBanks_WithEmptyList() throws Exception {
+    void testRefreshQuestionBanks_WithEmptyList() {
         // Given
         when(questionService.getQuestionBanks()).thenReturn(List.of());
 
@@ -88,7 +96,7 @@ class QuestionBankListControllerTest extends ApplicationTest {
     }
 
     @Test
-    void testRefreshQuestionBanks_WithException() throws Exception {
+    void testRefreshQuestionBanks_WithException() {
         // Given
         when(questionService.getQuestionBanks()).thenThrow(new RuntimeException("Test exception"));
 
@@ -112,7 +120,7 @@ class QuestionBankListControllerTest extends ApplicationTest {
 
         // When
         // This would normally be called from the UI, but we can test the service call
-        controller.createNewQuestionBank();
+        Platform.runLater(()-> controller.createNewQuestionBank());
 
         // Then
         // Verify that the service would be called (in a real scenario)
@@ -163,9 +171,8 @@ class QuestionBankListControllerTest extends ApplicationTest {
     @Test
     void testInitialize() {
         // Given
-        QuestionBankListController newController = new QuestionBankListController();
 
         // When & Then
-        assertDoesNotThrow(() -> newController.initialize(null, null));
+        assertDoesNotThrow(() -> controller.initialize(null, null));
     }
 } 

@@ -1,9 +1,19 @@
 package net.talaatharb.questionbank.ui.controllers;
 
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.TextArea;
-import javafx.scene.control.TextField;
+import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.mockito.ArgumentMatchers.anyList;
+import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.Mockito.doNothing;
+import static org.mockito.Mockito.doThrow;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.reset;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
+
+import java.util.Arrays;
+import java.util.List;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -11,15 +21,14 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.testfx.framework.junit5.ApplicationExtension;
 import org.testfx.framework.junit5.ApplicationTest;
+
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.control.TextArea;
+import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 import net.talaatharb.questionbank.dto.QuestionDto;
 import net.talaatharb.questionbank.service.QuestionService;
-
-import java.util.Arrays;
-import java.util.List;
-
-import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.*;
 
 @ExtendWith({MockitoExtension.class, ApplicationExtension.class})
 class QuestionEditorControllerTest extends ApplicationTest {
@@ -37,6 +46,20 @@ class QuestionEditorControllerTest extends ApplicationTest {
         controller = new QuestionEditorController();
         controller.setQuestionService(questionService);
         controller.setSceneManager(sceneManager);
+        controller.setStatusLabel(new Label());
+        controller.setQuestionNumberLabel(new Label());
+        controller.setPreviousButton(new Button());
+        controller.setNextButton(new Button());
+        controller.setQuestionTextField(new TextField());
+        controller.setAnswerTextArea(new TextArea());
+        controller.setCategoryTextField(new TextField());
+        controller.setDeleteQuestionButton(new Button());
+        controller.setDeleteQuestionButton(new Button());
+        controller.setAddQuestionButton(new Button());
+        controller.setBackToListButton(new Button());
+        controller.setSaveBankButton(new Button());
+        controller.setSaveButton(new Button());
+        
     }
 
     @BeforeEach
@@ -221,10 +244,9 @@ class QuestionEditorControllerTest extends ApplicationTest {
     @Test
     void testInitialize() {
         // Given
-        QuestionEditorController newController = new QuestionEditorController();
 
         // When & Then
-        assertDoesNotThrow(() -> newController.initialize(null, null));
+        assertDoesNotThrow(() -> controller.initialize(null, null));
     }
 
     // Helper methods

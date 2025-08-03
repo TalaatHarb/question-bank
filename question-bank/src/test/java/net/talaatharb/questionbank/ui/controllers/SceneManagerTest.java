@@ -6,6 +6,8 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.testfx.framework.junit5.ApplicationExtension;
 import org.testfx.framework.junit5.ApplicationTest;
+
+import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -25,10 +27,11 @@ class SceneManagerTest extends ApplicationTest {
     @Test
     void testSceneManagerInterfaceContract() {
         // Given
-        SceneManager sceneManager = new MainUiController();
+        var sceneManager = new MainUiController();
+        sceneManager.setMainContainer(new StackPane());
 
         // When & Then
-        assertDoesNotThrow(() -> sceneManager.switchToQuestionBankList());
+        assertDoesNotThrow(sceneManager::switchToQuestionBankList);
         assertDoesNotThrow(() -> sceneManager.switchToQuestionViewer("test-bank.json"));
         assertDoesNotThrow(() -> sceneManager.switchToQuestionEditor("test-bank.json"));
     }
@@ -52,7 +55,8 @@ class SceneManagerTest extends ApplicationTest {
     @Test
     void testSceneManagerInterfaceMethods() {
         // Given
-        SceneManager sceneManager = new MainUiController();
+        var sceneManager = new MainUiController();
+        sceneManager.setMainContainer(new StackPane());
 
         // When & Then
         assertDoesNotThrow(() -> {
@@ -65,7 +69,8 @@ class SceneManagerTest extends ApplicationTest {
     @Test
     void testSceneManagerWithNullParameters() {
         // Given
-        SceneManager sceneManager = new MainUiController();
+        var sceneManager = new MainUiController();
+        sceneManager.setMainContainer(new StackPane());
 
         // When & Then
         assertDoesNotThrow(() -> {
@@ -77,7 +82,8 @@ class SceneManagerTest extends ApplicationTest {
     @Test
     void testSceneManagerWithEmptyParameters() {
         // Given
-        SceneManager sceneManager = new MainUiController();
+        var sceneManager = new MainUiController();
+        sceneManager.setMainContainer(new StackPane());
 
         // When & Then
         assertDoesNotThrow(() -> {

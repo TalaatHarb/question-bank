@@ -1,39 +1,56 @@
 package net.talaatharb.questionbank.ui.controllers;
 
+import java.net.URL;
+import java.util.List;
+import java.util.ResourceBundle;
+
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
+import lombok.AccessLevel;
+import lombok.Getter;
+import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 import net.talaatharb.questionbank.dto.QuestionDto;
 import net.talaatharb.questionbank.service.QuestionService;
 
-import java.net.URL;
-import java.util.List;
-import java.util.ResourceBundle;
-
 @Slf4j
 public class QuestionViewerController implements Initializable {
 
+    @Getter(value = AccessLevel.PACKAGE)
+    @Setter(value = AccessLevel.PACKAGE)
     @FXML
     private Label questionNumberLabel;
     
+    @Getter(value = AccessLevel.PACKAGE)
+    @Setter(value = AccessLevel.PACKAGE)
     @FXML
     private Label questionTextLabel;
     
+    @Getter(value = AccessLevel.PACKAGE)
+    @Setter(value = AccessLevel.PACKAGE)
     @FXML
     private TextArea answerTextArea;
     
+    @Getter(value = AccessLevel.PACKAGE)
+    @Setter(value = AccessLevel.PACKAGE)
     @FXML
     private Button previousButton;
     
+    @Getter(value = AccessLevel.PACKAGE)
+    @Setter(value = AccessLevel.PACKAGE)
     @FXML
     private Button nextButton;
     
+    @Getter(value = AccessLevel.PACKAGE)
+    @Setter(value = AccessLevel.PACKAGE)
     @FXML
     private Button backToListButton;
     
+    @Getter(value = AccessLevel.PACKAGE)
+    @Setter(value = AccessLevel.PACKAGE)
     @FXML
     private Label statusLabel;
     

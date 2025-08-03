@@ -1,19 +1,20 @@
 package net.talaatharb.questionbank.utils;
 
-import lombok.AccessLevel;
-import lombok.NoArgsConstructor;
-import net.talaatharb.questionbank.dto.QuestionDto;
-
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.List;
-import java.util.stream.Collectors;
+
+import lombok.AccessLevel;
+import lombok.NoArgsConstructor;
+import net.talaatharb.questionbank.dto.QuestionDto;
 
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class FileUtils {
     
+    private static final String DATA_FOLDER = "./data";
+
     /**
      * Lists all JSON files in the ./data folder
      * 
@@ -21,7 +22,7 @@ public class FileUtils {
      * @throws IOException if there's an error reading the directory
      */
     public static List<String> listJsonFilesInDataFolder() throws IOException {
-        Path dataPath = Paths.get("./data");
+        Path dataPath = Paths.get(DATA_FOLDER);
         
         if (!Files.exists(dataPath)) {
             return List.of(); // Return empty list if directory doesn't exist
@@ -32,7 +33,7 @@ public class FileUtils {
                 .filter(path -> path.toString().toLowerCase().endsWith(".json"))
                 .map(Path::getFileName)
                 .map(Path::toString)
-                .collect(Collectors.toList());
+                .toList();
     }
     
     /**
@@ -42,7 +43,7 @@ public class FileUtils {
      * @throws IOException if there's an error reading the directory
      */
     public static List<Path> listJsonFilePathsInDataFolder() throws IOException {
-        Path dataPath = Paths.get("./data");
+        Path dataPath = Paths.get(DATA_FOLDER);
         
         if (!Files.exists(dataPath)) {
             return List.of(); // Return empty list if directory doesn't exist
@@ -51,7 +52,7 @@ public class FileUtils {
         return Files.list(dataPath)
                 .filter(Files::isRegularFile)
                 .filter(path -> path.toString().toLowerCase().endsWith(".json"))
-                .collect(Collectors.toList());
+                .toList();
     }
     
     /**
@@ -67,7 +68,7 @@ public class FileUtils {
             throw new IllegalArgumentException("Filename cannot be null or empty");
         }
         
-        Path dataPath = Paths.get("./data");
+        Path dataPath = Paths.get(DATA_FOLDER);
         Path filePath = dataPath.resolve(filename);
         
         if (!Files.exists(dataPath)) {
@@ -102,7 +103,7 @@ public class FileUtils {
             throw new IllegalArgumentException("Questions list cannot be null");
         }
         
-        Path dataPath = Paths.get("./data");
+        Path dataPath = Paths.get(DATA_FOLDER);
         
         // Ensure the data directory exists
         if (!Files.exists(dataPath)) {
