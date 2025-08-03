@@ -1,5 +1,6 @@
 package net.talaatharb.questionbank.service;
 
+import net.talaatharb.questionbank.config.HelperBeans;
 import net.talaatharb.questionbank.dto.QuestionDto;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -17,7 +18,7 @@ class QuestionServiceImplTest {
     @TempDir
     Path tempDir;
     
-    private QuestionServiceImpl questionService;
+    private QuestionService questionService;
     private Path testDataPath;
 
     @BeforeEach
@@ -26,8 +27,8 @@ class QuestionServiceImplTest {
         testDataPath = tempDir.resolve("data");
         Files.createDirectories(testDataPath);
         
-        // Create QuestionService
-        questionService = new QuestionServiceImpl();
+        // Create QuestionService using HelperBeans
+        questionService = HelperBeans.buildQuestionService();
         
         // Create test JSON files
         createTestQuestionBank("java-questions.json", createJavaQuestions());
@@ -258,6 +259,23 @@ class QuestionServiceImplTest {
         
         // Clean up
         Files.deleteIfExists(Path.of("./data").resolve(questionBankName));
+    }
+
+    @Test
+    void testSingletonBehavior() {
+        // Test that HelperBeans returns the same instance
+        QuestionService service1 = HelperBeans.buildQuestionService();
+        QuestionService service2 = HelperBeans.buildQuestionService();
+        
+        // Verify they are the same instance (singleton behavior)
+        assertSame(service1, service2);
+        
+        // Test ObjectMapper singleton behavior
+        var mapper1 = HelperBeans.buildObjectMapper();
+        var mapper2 = HelperBeans.buildObjectMapper();
+        
+        // Verify they are the same instance (singleton behavior)
+        assertSame(mapper1, mapper2);
     }
 
     // Helper methods
