@@ -42,6 +42,7 @@ jobs:
           RENAMED_JAR="question-bank-${VERSION}-${PLATFORM}.jar"
           cp "$ORIGINAL_JAR" "$RENAMED_JAR"
           echo "RENAMED_JAR_PATH=question-bank/target/$RENAMED_JAR" >> $GITHUB_ENV
+        shell: bash
 
       - name: Upload JAR to GitHub Release
         uses: softprops/action-gh-release@v2
