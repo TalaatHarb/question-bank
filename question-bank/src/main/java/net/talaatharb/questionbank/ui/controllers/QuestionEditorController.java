@@ -25,62 +25,62 @@ public class QuestionEditorController implements Initializable {
     @Setter(value = AccessLevel.PACKAGE)
     @FXML
     private Label questionNumberLabel;
-    
+
     @Getter(value = AccessLevel.PACKAGE)
     @Setter(value = AccessLevel.PACKAGE)
     @FXML
     private TextField questionTextField;
-    
+
     @Getter(value = AccessLevel.PACKAGE)
     @Setter(value = AccessLevel.PACKAGE)
     @FXML
     private TextArea answerTextArea;
-    
+
     @Getter(value = AccessLevel.PACKAGE)
     @Setter(value = AccessLevel.PACKAGE)
     @FXML
     private TextField categoryTextField;
-    
+
     @Getter(value = AccessLevel.PACKAGE)
     @Setter(value = AccessLevel.PACKAGE)
     @FXML
     private Button previousButton;
-    
+
     @Getter(value = AccessLevel.PACKAGE)
     @Setter(value = AccessLevel.PACKAGE)
     @FXML
     private Button nextButton;
-    
+
     @Getter(value = AccessLevel.PACKAGE)
     @Setter(value = AccessLevel.PACKAGE)
     @FXML
     private Button saveButton;
-    
+
     @Getter(value = AccessLevel.PACKAGE)
     @Setter(value = AccessLevel.PACKAGE)
     @FXML
     private Button addQuestionButton;
-    
+
     @Getter(value = AccessLevel.PACKAGE)
     @Setter(value = AccessLevel.PACKAGE)
     @FXML
     private Button deleteQuestionButton;
-    
+
     @Getter(value = AccessLevel.PACKAGE)
     @Setter(value = AccessLevel.PACKAGE)
     @FXML
     private Button saveBankButton;
-    
+
     @Getter(value = AccessLevel.PACKAGE)
     @Setter(value = AccessLevel.PACKAGE)
     @FXML
     private Button backToListButton;
-    
+
     @Getter(value = AccessLevel.PACKAGE)
     @Setter(value = AccessLevel.PACKAGE)
     @FXML
     private Label statusLabel;
-    
+
     private QuestionService questionService;
     private SceneManager sceneManager;
     private List<QuestionDto> questions;
@@ -106,7 +106,7 @@ public class QuestionEditorController implements Initializable {
         this.currentQuestionBank = questionBank;
         this.currentQuestionIndex = 0;
         this.hasUnsavedChanges = false;
-        
+
         try {
             questions = new ArrayList<>(questionService.getQuestions(questionBank));
             if (questions.isEmpty()) {
@@ -132,7 +132,7 @@ public class QuestionEditorController implements Initializable {
         deleteQuestionButton.setOnAction(event -> deleteCurrentQuestion());
         saveBankButton.setOnAction(event -> saveQuestionBank());
         backToListButton.setOnAction(event -> goBackToList());
-        
+
         // Track changes
         questionTextField.textProperty().addListener((observable, oldValue, newValue) -> markAsChanged());
         answerTextArea.textProperty().addListener((observable, oldValue, newValue) -> markAsChanged());
@@ -154,22 +154,23 @@ public class QuestionEditorController implements Initializable {
     }
 
     private void displayCurrentQuestion() {
-        if (questions != null && !questions.isEmpty() && currentQuestionIndex >= 0 && currentQuestionIndex < questions.size()) {
+        if (questions != null && !questions.isEmpty() && currentQuestionIndex >= 0
+                && currentQuestionIndex < questions.size()) {
             QuestionDto question = questions.get(currentQuestionIndex);
-            
+
             questionNumberLabel.setText(String.format("Question %d of %d", currentQuestionIndex + 1, questions.size()));
             questionTextField.setText(question.getQuestion());
             answerTextArea.setText(question.getAnswer());
             categoryTextField.setText(question.getCategory());
-            
+
             // Update button states
             previousButton.setDisable(currentQuestionIndex == 0);
             nextButton.setDisable(currentQuestionIndex == questions.size() - 1);
             deleteQuestionButton.setDisable(false);
-            
+
             hasUnsavedChanges = false;
             updateSaveButtonState();
-            
+
             log.debug("Displaying question {} of {} for editing", currentQuestionIndex + 1, questions.size());
         }
     }
@@ -186,19 +187,26 @@ public class QuestionEditorController implements Initializable {
     }
 
     public void saveCurrentQuestion() {
-        if (questions != null && !questions.isEmpty() && currentQuestionIndex >= 0 && currentQuestionIndex < questions.size()) {
-            QuestionDto question = questions.get(currentQuestionIndex);
+        if (questions != null && currentQuestionIndex >= 0) {
+            QuestionDto question = null;
+            if(currentQuestionIndex < questions.size()) {
+                question = questions.get(currentQuestionIndex);
+            } else {
+                question = new QuestionDto();
+                questions.add(question);
+                currentQuestionIndex = questions.size() - 1;
+            }
             question.setQuestion(questionTextField.getText());
             question.setAnswer(answerTextArea.getText());
             question.setCategory(categoryTextField.getText());
-            
+
             // Save the question bank to persist changes
             saveQuestionBank();
-            
+
             hasUnsavedChanges = false;
             updateSaveButtonState();
             statusLabel.setText("Question saved to file");
-            
+
             log.debug("Saved question {} of {} to file", currentQuestionIndex + 1, questions.size());
         }
     }
@@ -208,20 +216,21 @@ public class QuestionEditorController implements Initializable {
         newQuestion.setQuestion("New Question");
         newQuestion.setAnswer("New Answer");
         newQuestion.setCategory("General");
-        
+
         questions.add(newQuestion);
         currentQuestionIndex = questions.size() - 1;
-        
+
         statusLabel.setText(String.format("Added new question. Total: %d", questions.size()));
         displayCurrentQuestion();
-        
+
         log.info("Added new question to bank: {}", currentQuestionBank);
     }
 
     public void deleteCurrentQuestion() {
-        if (questions != null && !questions.isEmpty() && currentQuestionIndex >= 0 && currentQuestionIndex < questions.size()) {
+        if (questions != null && !questions.isEmpty() && currentQuestionIndex >= 0
+                && currentQuestionIndex < questions.size()) {
             questions.remove(currentQuestionIndex);
-            
+
             if (questions.isEmpty()) {
                 clearQuestionDisplay();
                 statusLabel.setText("No questions remaining");
@@ -232,10 +241,10 @@ public class QuestionEditorController implements Initializable {
                 displayCurrentQuestion();
                 statusLabel.setText(String.format("Question deleted. Total: %d", questions.size()));
             }
-            
+
             hasUnsavedChanges = true;
             updateSaveButtonState();
-            
+
             log.info("Deleted question {} from bank: {}", currentQuestionIndex + 1, currentQuestionBank);
         }
     }
@@ -269,7 +278,7 @@ public class QuestionEditorController implements Initializable {
             // TODO: Show confirmation dialog
             log.warn("Unsaved changes detected when going back to list");
         }
-        
+
         if (sceneManager != null) {
             log.info("Returning to question bank list");
             sceneManager.switchToQuestionBankList();
@@ -280,4 +289,4 @@ public class QuestionEditorController implements Initializable {
     public List<QuestionDto> getQuestions() {
         return questions;
     }
-} 
+}

@@ -25,6 +25,7 @@ class FileUtilsTest {
         // Create a test data directory in temp
         testDataPath = tempDir.resolve("data");
         Files.createDirectories(testDataPath);
+        FileUtils.setDataFolder(testDataPath.toString());
 
         // Create test JSON files
         Files.write(testDataPath.resolve("empty.json"), "[]".getBytes());
@@ -36,7 +37,7 @@ class FileUtilsTest {
     @Test
     void testListJsonFilesInDataFolder_WithJsonFiles() throws IOException {
         // Create a mock FileUtils that uses our test directory
-        List<String> jsonFiles = listJsonFilesInTestDataFolder();
+        List<String> jsonFiles = FileUtils.listJsonFilesInDataFolder();
 
         assertNotNull(jsonFiles);
         assertEquals(3, jsonFiles.size());
@@ -49,7 +50,7 @@ class FileUtilsTest {
     @Test
     void testListJsonFilePathsInDataFolder_WithJsonFiles() throws IOException {
         // Create a mock FileUtils that uses our test directory
-        List<Path> jsonFilePaths = listJsonFilePathsInTestDataFolder();
+        List<Path> jsonFilePaths = FileUtils.listJsonFilePathsInDataFolder();
 
         assertNotNull(jsonFilePaths);
         assertEquals(3, jsonFilePaths.size());
@@ -77,8 +78,9 @@ class FileUtilsTest {
         // Create an empty data directory
         Path emptyDataPath = tempDir.resolve("emptyData");
         Files.createDirectories(emptyDataPath);
+        FileUtils.setDataFolder(emptyDataPath.toString());
 
-        List<String> jsonFiles = listJsonFilesInDirectory(emptyDataPath);
+        List<String> jsonFiles = FileUtils.listJsonFilesInDataFolder();
 
         assertNotNull(jsonFiles);
         assertTrue(jsonFiles.isEmpty());
@@ -89,8 +91,9 @@ class FileUtilsTest {
         // Create an empty data directory
         Path emptyDataPath = tempDir.resolve("emptyData");
         Files.createDirectories(emptyDataPath);
+        FileUtils.setDataFolder(emptyDataPath.toString());
 
-        List<Path> jsonFilePaths = listJsonFilePathsInDirectory(emptyDataPath);
+        List<Path> jsonFilePaths = FileUtils.listJsonFilePathsInDataFolder();
 
         assertNotNull(jsonFilePaths);
         assertTrue(jsonFilePaths.isEmpty());
@@ -104,7 +107,7 @@ class FileUtilsTest {
         Files.write(testDataPath.resolve("data.JSON"), "{\"uppercase\": \"extension\"}".getBytes()); // Test case
                                                                                                      // insensitivity
 
-        List<String> jsonFiles = listJsonFilesInTestDataFolder();
+        List<String> jsonFiles = FileUtils.listJsonFilesInDataFolder();
 
         assertNotNull(jsonFiles);
         assertEquals(4, jsonFiles.size()); // 3 original + 1 uppercase .JSON
@@ -124,7 +127,7 @@ class FileUtilsTest {
     })
     @ParameterizedTest
     void testLoadJsonFileAsString(String fileName, String expectedContent) throws IOException {
-        String content = loadJsonFileAsStringFromTestData(fileName);
+        String content = FileUtils.loadJsonFileAsString(fileName);
 
         assertNotNull(content);
         assertEquals(expectedContent, content.trim());
@@ -134,7 +137,7 @@ class FileUtilsTest {
     void testLoadJsonFileAsString_WithNullFilename() {
         // Test with null filename
         assertThrows(IllegalArgumentException.class, () -> {
-            loadJsonFileAsStringFromTestData(null);
+            FileUtils.loadJsonFileAsString(null);
         });
     }
 
@@ -142,7 +145,7 @@ class FileUtilsTest {
     void testLoadJsonFileAsString_WithEmptyFilename() {
         // Test with empty filename
         assertThrows(IllegalArgumentException.class, () -> {
-            loadJsonFileAsStringFromTestData("");
+            FileUtils.loadJsonFileAsString("");
         });
     }
 
@@ -150,7 +153,7 @@ class FileUtilsTest {
     void testLoadJsonFileAsString_WithWhitespaceFilename() {
         // Test with whitespace-only filename
         assertThrows(IllegalArgumentException.class, () -> {
-            loadJsonFileAsStringFromTestData("   ");
+            FileUtils.loadJsonFileAsString("   ");
         });
     }
 
@@ -158,7 +161,7 @@ class FileUtilsTest {
     void testLoadJsonFileAsString_WithNonExistentFile() {
         // Test with non-existent file
         assertThrows(IOException.class, () -> {
-            loadJsonFileAsStringFromTestData("nonexistent.json");
+            FileUtils.loadJsonFileAsString("nonexistent.json");
         });
     }
 
@@ -170,7 +173,7 @@ class FileUtilsTest {
 
         // Test loading a directory (should fail)
         assertThrows(IOException.class, () -> {
-            loadJsonFileAsStringFromTestData("directory.json");
+            FileUtils.loadJsonFileAsString("directory.json");
         });
     }
 
@@ -188,76 +191,5 @@ class FileUtilsTest {
             // Skip test if the actual data folder doesn't exist or empty.json is not found
             System.out.println("Skipping actual FileUtils test - ./data/empty.json not found: " + e.getMessage());
         }
-    }
-
-    // Helper methods that mimic the FileUtils behavior but use our test directory
-    private List<String> listJsonFilesInTestDataFolder() throws IOException {
-        if (!Files.exists(testDataPath)) {
-            return List.of();
-        }
-
-        return Files.list(testDataPath)
-                .filter(Files::isRegularFile)
-                .filter(path -> path.toString().toLowerCase().endsWith(".json"))
-                .map(Path::getFileName)
-                .map(Path::toString)
-                .toList();
-    }
-
-    private List<Path> listJsonFilePathsInTestDataFolder() throws IOException {
-        if (!Files.exists(testDataPath)) {
-            return List.of();
-        }
-
-        return Files.list(testDataPath)
-                .filter(Files::isRegularFile)
-                .filter(path -> path.toString().toLowerCase().endsWith(".json"))
-                .toList();
-    }
-
-    private List<String> listJsonFilesInDirectory(Path directory) throws IOException {
-        if (!Files.exists(directory)) {
-            return List.of();
-        }
-
-        return Files.list(directory)
-                .filter(Files::isRegularFile)
-                .filter(path -> path.toString().toLowerCase().endsWith(".json"))
-                .map(Path::getFileName)
-                .map(Path::toString)
-                .toList();
-    }
-
-    private List<Path> listJsonFilePathsInDirectory(Path directory) throws IOException {
-        if (!Files.exists(directory)) {
-            return List.of();
-        }
-
-        return Files.list(directory)
-                .filter(Files::isRegularFile)
-                .filter(path -> path.toString().toLowerCase().endsWith(".json"))
-                .toList();
-    }
-
-    private String loadJsonFileAsStringFromTestData(String filename) throws IOException {
-        if (filename == null || filename.trim().isEmpty()) {
-            throw new IllegalArgumentException("Filename cannot be null or empty");
-        }
-
-        if (!Files.exists(testDataPath)) {
-            throw new IOException("Data directory does not exist");
-        }
-
-        Path filePath = testDataPath.resolve(filename);
-
-        if (!Files.exists(filePath)) {
-            throw new IOException("File " + filename + " does not exist in data folder");
-        }
-
-        if (!Files.isRegularFile(filePath)) {
-            throw new IOException("Path " + filename + " is not a regular file");
-        }
-
-        return Files.readString(filePath);
     }
 }

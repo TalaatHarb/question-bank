@@ -1,1 +1,35 @@
-[ ]
+[ {
+  "id" : null,
+  "question" : "What is Java?",
+  "answer" : "A general purpose programming language that is pretty popular.",
+  "category" : "Programming",
+  "source" : null,
+  "explanation" : null,
+  "tags" : null,
+  "createdAt" : null,
+  "updatedAt" : null,
+  "createdBy" : null,
+  "updatedBy" : null,
+  "status" : null,
+  "version" : null,
+  "language" : null,
+  "questionAudioFileName" : null,
+  "answerAudioFileName" : null
+}, {
+  "id" : null,
+  "question" : "What is python?",
+  "answer" : "Another popular programming language, mostly used in ML applications.",
+  "category" : "Programming",
+  "source" : null,
+  "explanation" : null,
+  "tags" : null,
+  "createdAt" : null,
+  "updatedAt" : null,
+  "createdBy" : null,
+  "updatedBy" : null,
+  "status" : null,
+  "version" : null,
+  "language" : null,
+  "questionAudioFileName" : null,
+  "answerAudioFileName" : null
+} ]

@@ -13,7 +13,7 @@ import net.talaatharb.questionbank.dto.QuestionDto;
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class FileUtils {
 
-    private static final String DATA_FOLDER = "./data";
+    private static String dataFolder = "./data";
 
     /**
      * Lists all JSON files in the ./data folder
@@ -22,7 +22,7 @@ public class FileUtils {
      * @throws IOException if there's an error reading the directory
      */
     public static List<String> listJsonFilesInDataFolder() throws IOException {
-        Path dataPath = Paths.get(DATA_FOLDER);
+        Path dataPath = Paths.get(dataFolder);
 
         if (!Files.exists(dataPath)) {
             return List.of(); // Return empty list if directory doesn't exist
@@ -49,7 +49,7 @@ public class FileUtils {
      * @throws IOException if there's an error reading the directory
      */
     public static List<Path> listJsonFilePathsInDataFolder() throws IOException {
-        Path dataPath = Paths.get(DATA_FOLDER);
+        Path dataPath = Paths.get(dataFolder);
 
         if (!Files.exists(dataPath)) {
             return List.of(); // Return empty list if directory doesn't exist
@@ -81,7 +81,7 @@ public class FileUtils {
             throw new IllegalArgumentException("Filename cannot be null or empty");
         }
 
-        Path dataPath = Paths.get(DATA_FOLDER);
+        Path dataPath = Paths.get(dataFolder);
         Path filePath = dataPath.resolve(filename);
 
         if (!Files.exists(dataPath)) {
@@ -117,7 +117,7 @@ public class FileUtils {
             throw new IllegalArgumentException("Questions list cannot be null");
         }
 
-        Path dataPath = Paths.get(DATA_FOLDER);
+        Path dataPath = Paths.get(dataFolder);
 
         // Ensure the data directory exists
         if (!Files.exists(dataPath)) {
@@ -130,5 +130,13 @@ public class FileUtils {
         // Write to file
         Path filePath = dataPath.resolve(filename);
         Files.writeString(filePath, jsonContent);
+    }
+
+    public static final String getDataFolder() {
+        return dataFolder;
+    }
+
+    public static final void setDataFolder(String dataFolder) {
+        FileUtils.dataFolder = dataFolder;
     }
 }
