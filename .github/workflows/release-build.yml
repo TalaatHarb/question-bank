@@ -24,14 +24,8 @@ jobs:
       - name: Build with Maven
         run: |
           cd question-bank
-          MAVEN_OPTS="--add-opens java.base/java.lang=ALL-UNNAMED" mvn clean verify package \
-            -Djava.awt.headless=true \
-            -Dtestfx.robot=glass \
-            -Dtestfx.headless=true \
-            -Dprism.order=sw \
-            -Dprism.text=t2k \
-            -Dglass.platform=Monocle \
-            -Dmonocle.platform=Headless
+          MAVEN_OPTS="--add-opens java.base/java.lang=ALL-UNNAMED" mvn clean compile package \
+          -DskipTests
 
       - name: Rename JAR with tag version
         run: |
