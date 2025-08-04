@@ -45,6 +45,7 @@
 		<javafx.version>23-ea+27</javafx.version>
 		<testfx.version>4.0.18</testfx.version>
 		<monocole.version>21.0.2</monocole.version>
+		<javafx-maven-plugin.version>0.0.8</javafx-maven-plugin.version>
 	</properties>
 	<dependencies>
 		<dependency>
@@ -330,6 +331,14 @@
 					</execution>
 				</executions>
 			</plugin>
+			<plugin>
+                <groupId>org.openjfx</groupId>
+                <artifactId>javafx-maven-plugin</artifactId>
+                <version>${javafx-maven-plugin.version}</version>
+                <configuration>
+                    <mainClass>${main.class}</mainClass>
+                </configuration>
+            </plugin>
 		</plugins>
 	</build>
 </project>
