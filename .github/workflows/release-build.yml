@@ -24,7 +24,7 @@ jobs:
       - name: Build with Maven
         run: |
           cd question-bank
-          mvn clean verify package \
+          MAVEN_OPTS="--add-opens java.base/java.lang=ALL-UNNAMED" mvn clean verify package \
             -Djava.awt.headless=true \
             -Dtestfx.robot=glass \
             -Dtestfx.headless=true \

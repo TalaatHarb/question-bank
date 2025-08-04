@@ -16,4 +16,4 @@ jobs:
         with:
           java-version: '21'
           distribution: 'temurin'
-      - run: cd question-bank && mvn compile verify package -Djava.awt.headless=true -Dtestfx.robot=glass -Dtestfx.headless=true -Dprism.order=sw -Dprism.text=t2k -Dglass.platform=Monocle -Dmonocle.platform=Headless
+      - run: cd question-bank && MAVEN_OPTS="--add-opens java.base/java.lang=ALL-UNNAMED" mvn compile verify package -Djava.awt.headless=true -Dtestfx.robot=glass -Dtestfx.headless=true -Dprism.order=sw -Dprism.text=t2k -Dglass.platform=Monocle -Dmonocle.platform=Headless
