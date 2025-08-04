@@ -17,12 +17,10 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.testfx.framework.junit5.ApplicationExtension;
 import org.testfx.framework.junit5.ApplicationTest;
 
-import javafx.application.Platform;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.stage.Stage;
-import net.talaatharb.questionbank.dto.QuestionDto;
 import net.talaatharb.questionbank.service.QuestionService;
 
 @ExtendWith({MockitoExtension.class, ApplicationExtension.class})
@@ -106,52 +104,6 @@ class QuestionBankListControllerTest extends ApplicationTest {
         // Then
         verify(questionService).getQuestionBanks();
         // Exception should be handled gracefully
-    }
-
-    @Test
-    void testCreateNewQuestionBank_WithValidName() throws Exception {
-        // Given
-        String newBankName = "test-bank.json";
-        List<QuestionDto> emptyQuestions = List.of();
-        
-        // Mock the dialog to return a valid name
-        // Note: In a real test, you'd need to mock the TextInputDialog
-        // For now, we'll test the logic that would be called
-
-        // When
-        // This would normally be called from the UI, but we can test the service call
-        Platform.runLater(()-> controller.createNewQuestionBank());
-
-        // Then
-        // Verify that the service would be called (in a real scenario)
-        // This test demonstrates the structure but would need more complex setup
-        // for actual dialog testing
-    }
-
-    @Test
-    void testOpenSelectedBank_WithValidSelection() {
-        // Given
-        String selectedBank = "test-bank.json";
-
-        // When
-        controller.openSelectedBank();
-
-        // Then
-        // Verify scene manager would be called (in a real scenario)
-        // This test demonstrates the structure
-    }
-
-    @Test
-    void testEditSelectedBank_WithValidSelection() {
-        // Given
-        String selectedBank = "test-bank.json";
-
-        // When
-        controller.editSelectedBank();
-
-        // Then
-        // Verify scene manager would be called (in a real scenario)
-        // This test demonstrates the structure
     }
 
     @Test

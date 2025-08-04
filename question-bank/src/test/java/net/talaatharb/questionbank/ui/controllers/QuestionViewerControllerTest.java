@@ -56,7 +56,7 @@ class QuestionViewerControllerTest extends ApplicationTest {
     }
 
     @Test
-    void testLoadQuestionBank_WithValidQuestions() throws Exception {
+    void testLoadQuestionBank_WithValidQuestions() {
         // Given
         String questionBank = "test-bank.json";
         List<QuestionDto> mockQuestions = Arrays.asList(
@@ -73,7 +73,7 @@ class QuestionViewerControllerTest extends ApplicationTest {
     }
 
     @Test
-    void testLoadQuestionBank_WithEmptyQuestions() throws Exception {
+    void testLoadQuestionBank_WithEmptyQuestions() {
         // Given
         String questionBank = "empty-bank.json";
         when(questionService.getQuestions(questionBank)).thenReturn(List.of());
@@ -86,7 +86,7 @@ class QuestionViewerControllerTest extends ApplicationTest {
     }
 
     @Test
-    void testLoadQuestionBank_WithException() throws Exception {
+    void testLoadQuestionBank_WithException() {
         // Given
         String questionBank = "invalid-bank.json";
         when(questionService.getQuestions(questionBank)).thenThrow(new RuntimeException("Test exception"));

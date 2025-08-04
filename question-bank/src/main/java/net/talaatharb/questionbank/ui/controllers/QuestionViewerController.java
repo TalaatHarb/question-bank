@@ -57,7 +57,6 @@ public class QuestionViewerController implements Initializable {
     private QuestionService questionService;
     private SceneManager sceneManager;
     private List<QuestionDto> questions;
-    private String currentQuestionBank;
     private int currentQuestionIndex = 0;
 
     @Override
@@ -75,7 +74,6 @@ public class QuestionViewerController implements Initializable {
     }
 
     public void loadQuestionBank(String questionBank) {
-        this.currentQuestionBank = questionBank;
         this.currentQuestionIndex = 0;
         
         try {

@@ -68,7 +68,7 @@ class QuestionEditorControllerTest extends ApplicationTest {
     }
 
     @Test
-    void testLoadQuestionBank_WithValidQuestions() throws Exception {
+    void testLoadQuestionBank_WithValidQuestions() {
         // Given
         String questionBank = "test-bank.json";
         List<QuestionDto> mockQuestions = Arrays.asList(
@@ -85,7 +85,7 @@ class QuestionEditorControllerTest extends ApplicationTest {
     }
 
     @Test
-    void testLoadQuestionBank_WithEmptyQuestions() throws Exception {
+    void testLoadQuestionBank_WithEmptyQuestions() {
         // Given
         String questionBank = "empty-bank.json";
         when(questionService.getQuestions(questionBank)).thenReturn(List.of());
@@ -98,7 +98,7 @@ class QuestionEditorControllerTest extends ApplicationTest {
     }
 
     @Test
-    void testLoadQuestionBank_WithException() throws Exception {
+    void testLoadQuestionBank_WithException() {
         // Given
         String questionBank = "invalid-bank.json";
         when(questionService.getQuestions(questionBank)).thenThrow(new RuntimeException("Test exception"));
@@ -141,7 +141,7 @@ class QuestionEditorControllerTest extends ApplicationTest {
     }
 
     @Test
-    void testSaveCurrentQuestion_WithValidQuestion() throws Exception {
+    void testSaveCurrentQuestion_WithValidQuestion() {
         // Given
         setupControllerWithQuestions();
         controller.loadQuestionBank("test-bank.json");
@@ -183,7 +183,7 @@ class QuestionEditorControllerTest extends ApplicationTest {
     }
 
     @Test
-    void testSaveQuestionBank_WithValidData() throws Exception {
+    void testSaveQuestionBank_WithValidData() {
         // Given
         setupControllerWithQuestions();
         controller.loadQuestionBank("test-bank.json");
@@ -197,7 +197,7 @@ class QuestionEditorControllerTest extends ApplicationTest {
     }
 
     @Test
-    void testSaveQuestionBank_WithException() throws Exception {
+    void testSaveQuestionBank_WithException() {
         // Given
         setupControllerWithQuestions();
         controller.loadQuestionBank("test-bank.json");

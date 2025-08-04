@@ -5,6 +5,8 @@ import net.talaatharb.questionbank.dto.QuestionDto;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.io.TempDir;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.CsvSource;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -37,7 +39,7 @@ class QuestionServiceImplTest {
     }
 
     @Test
-    void testGetQuestionBanks_WithExistingFiles() throws IOException {
+    void testGetQuestionBanks_WithExistingFiles() {
         // When
         List<String> questionBanks = questionService.getQuestionBanks();
         
@@ -122,31 +124,16 @@ class QuestionServiceImplTest {
             Files.deleteIfExists(testFile);
         }
     }
-
-    @Test
-    void testGetQuestions_WithNullQuestionBank() {
-        // When
-        List<QuestionDto> questions = questionService.getQuestions(null);
-        
-        // Then
-        assertNotNull(questions);
-        assertTrue(questions.isEmpty());
-    }
-
-    @Test
-    void testGetQuestions_WithEmptyQuestionBankName() {
-        // When
-        List<QuestionDto> questions = questionService.getQuestions("");
-        
-        // Then
-        assertNotNull(questions);
-        assertTrue(questions.isEmpty());
-    }
-
-    @Test
-    void testGetQuestions_WithNonExistentQuestionBank() {
-        // When
-        List<QuestionDto> questions = questionService.getQuestions("nonexistent.json");
+    
+    @CsvSource({
+        "'null'",
+        "''",
+        "nonexistent.json"
+    })
+    @ParameterizedTest
+    void testGetQuestionsForEmptyCases(String questionBank) {
+     // When
+        List<QuestionDto> questions = questionService.getQuestions(questionBank);
         
         // Then
         assertNotNull(questions);

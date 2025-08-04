@@ -159,7 +159,7 @@ class QuestionUtilsTest {
     }
 
     @Test
-    void testRoundTripConversion() throws IOException, JsonProcessingException {
+    void testRoundTripConversion() throws IOException {
         // Given
         QuestionDto question1 = new QuestionDto();
         question1.setQuestion("What is Java?");

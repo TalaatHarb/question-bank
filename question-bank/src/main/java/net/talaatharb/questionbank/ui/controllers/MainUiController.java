@@ -28,9 +28,6 @@ public class MainUiController implements Initializable, SceneManager {
     private Stage primaryStage;
     private QuestionService questionService;
     
-    // Current scene
-    private String currentQuestionBank;
-
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         log.info("Initializing UI application Main window controller...");
@@ -83,7 +80,6 @@ public class MainUiController implements Initializable, SceneManager {
             // Clear the main container and add the new content
             mainContainer.getChildren().clear();
             mainContainer.getChildren().add(root);
-            currentQuestionBank = questionBank;
             
             if (primaryStage != null) {
                 primaryStage.setTitle("Question Bank Manager - Viewer: " + questionBank);
@@ -108,7 +104,6 @@ public class MainUiController implements Initializable, SceneManager {
             // Clear the main container and add the new content
             mainContainer.getChildren().clear();
             mainContainer.getChildren().add(root);
-            currentQuestionBank = questionBank;
             
             if (primaryStage != null) {
                 primaryStage.setTitle("Question Bank Manager - Editor: " + questionBank);
