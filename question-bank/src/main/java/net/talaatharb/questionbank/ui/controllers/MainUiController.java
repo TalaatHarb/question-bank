@@ -8,7 +8,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
-import javafx.scene.layout.StackPane;
+import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import lombok.AccessLevel;
 import lombok.Getter;
@@ -16,6 +16,7 @@ import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 import net.talaatharb.questionbank.config.HelperBeans;
 import net.talaatharb.questionbank.service.QuestionService;
+import net.talaatharb.questionbank.utils.GUIUtils;
 
 @Slf4j
 public class MainUiController implements Initializable, SceneManager {
@@ -23,7 +24,7 @@ public class MainUiController implements Initializable, SceneManager {
     @Getter(value = AccessLevel.PACKAGE)
     @Setter(value = AccessLevel.PACKAGE)
     @FXML
-    private StackPane mainContainer;
+    private AnchorPane mainContainer;
     
     private Stage primaryStage;
     private QuestionService questionService;
@@ -56,6 +57,7 @@ public class MainUiController implements Initializable, SceneManager {
             // Clear the main container and add the new content
             mainContainer.getChildren().clear();
             mainContainer.getChildren().add(root);
+            GUIUtils.setAnchorZero(root);
             
             if (primaryStage != null) {
                 primaryStage.setTitle("Question Bank Manager - Question Banks");
@@ -80,6 +82,7 @@ public class MainUiController implements Initializable, SceneManager {
             // Clear the main container and add the new content
             mainContainer.getChildren().clear();
             mainContainer.getChildren().add(root);
+            GUIUtils.setAnchorZero(root);
             
             if (primaryStage != null) {
                 primaryStage.setTitle("Question Bank Manager - Viewer: " + questionBank);
@@ -104,6 +107,7 @@ public class MainUiController implements Initializable, SceneManager {
             // Clear the main container and add the new content
             mainContainer.getChildren().clear();
             mainContainer.getChildren().add(root);
+            GUIUtils.setAnchorZero(root);
             
             if (primaryStage != null) {
                 primaryStage.setTitle("Question Bank Manager - Editor: " + questionBank);

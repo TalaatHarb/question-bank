@@ -1,5 +1,10 @@
 package net.talaatharb.questionbank.ui.controllers;
 
+import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.mockito.Mockito.verify;
+
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
@@ -7,11 +12,8 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.testfx.framework.junit5.ApplicationExtension;
 import org.testfx.framework.junit5.ApplicationTest;
 
-import javafx.scene.layout.StackPane;
+import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
-
-import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.*;
 
 @ExtendWith({MockitoExtension.class, ApplicationExtension.class})
 class SceneManagerTest extends ApplicationTest {
@@ -28,7 +30,7 @@ class SceneManagerTest extends ApplicationTest {
     void testSceneManagerInterfaceContract() {
         // Given
         var sceneManager = new MainUiController();
-        sceneManager.setMainContainer(new StackPane());
+        sceneManager.setMainContainer(new AnchorPane());
 
         // When & Then
         assertDoesNotThrow(sceneManager::switchToQuestionBankList);
@@ -56,7 +58,7 @@ class SceneManagerTest extends ApplicationTest {
     void testSceneManagerInterfaceMethods() {
         // Given
         var sceneManager = new MainUiController();
-        sceneManager.setMainContainer(new StackPane());
+        sceneManager.setMainContainer(new AnchorPane());
 
         // When & Then
         assertDoesNotThrow(() -> {
@@ -70,7 +72,7 @@ class SceneManagerTest extends ApplicationTest {
     void testSceneManagerWithNullParameters() {
         // Given
         var sceneManager = new MainUiController();
-        sceneManager.setMainContainer(new StackPane());
+        sceneManager.setMainContainer(new AnchorPane());
 
         // When & Then
         assertDoesNotThrow(() -> {
@@ -83,7 +85,7 @@ class SceneManagerTest extends ApplicationTest {
     void testSceneManagerWithEmptyParameters() {
         // Given
         var sceneManager = new MainUiController();
-        sceneManager.setMainContainer(new StackPane());
+        sceneManager.setMainContainer(new AnchorPane());
 
         // When & Then
         assertDoesNotThrow(() -> {

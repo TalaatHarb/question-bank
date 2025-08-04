@@ -14,7 +14,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.testfx.framework.junit5.ApplicationExtension;
 import org.testfx.framework.junit5.ApplicationTest;
 
-import javafx.scene.layout.StackPane;
+import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import net.talaatharb.questionbank.service.QuestionService;
 
@@ -29,7 +29,7 @@ class MainUiControllerTest extends ApplicationTest {
     @Override
     public void start(Stage stage) {
         controller = new MainUiController();
-        controller.setMainContainer(new StackPane());
+        controller.setMainContainer(new AnchorPane());
     }
 
     @BeforeEach
