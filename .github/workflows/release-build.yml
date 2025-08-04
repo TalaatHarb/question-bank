@@ -3,13 +3,17 @@ name: Release Build
 on:
   push:
     tags:
-      - 'v*' # e.g. v1.0.0
+      - 'v*'  # e.g. v1.0.0
+
 permissions:
-  contents: write   # Required to create releases
+  contents: write  # Required to create releases
 
 jobs:
   build-and-release:
-    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        os: [ubuntu-latest, windows-latest, macos-latest]
+    runs-on: ${{ matrix.os }}
 
     steps:
       - name: Checkout repository
@@ -24,16 +28,18 @@ jobs:
       - name: Build with Maven
         run: |
           cd question-bank
-          MAVEN_OPTS="--add-opens java.base/java.lang=ALL-UNNAMED" mvn clean compile package \
-          -DskipTests
+          # Windows syntax inside bash (MSYS) is okay with export
+          export MAVEN_OPTS="--add-opens java.base/java.lang=ALL-UNNAMED"
+          mvn clean compile package -DskipTests
 
-      - name: Rename JAR with tag version
+      - name: Rename JAR with tag version and platform suffix
         run: |
-          TAG_NAME=${GITHUB_REF#refs/tags/}              # v1.0.0
-          VERSION=${TAG_NAME#v}                          # 1.0.0
+          TAG_NAME=${GITHUB_REF#refs/tags/}               # v1.0.0
+          VERSION=${TAG_NAME#v}                           # 1.0.0
+          PLATFORM=$(echo "${{ matrix.os }}" | cut -d'-' -f1)  # windows / ubuntu / macos
           cd question-bank/target
           ORIGINAL_JAR=$(ls *SNAPSHOT-jar-with-dependencies.jar)
-          RENAMED_JAR="question-bank-${VERSION}.jar"
+          RENAMED_JAR="question-bank-${VERSION}-${PLATFORM}.jar"
           cp "$ORIGINAL_JAR" "$RENAMED_JAR"
           echo "RENAMED_JAR_PATH=question-bank/target/$RENAMED_JAR" >> $GITHUB_ENV
 
@@ -41,10 +47,10 @@ jobs:
         uses: softprops/action-gh-release@v2
         with:
           tag_name: ${{ github.ref_name }}
-          name: Release ${{ github.ref_name }}         # This sets the title
+          name: Release ${{ github.ref_name }}
           body: |
-           This release was automatically generated from tag `${{ github.ref_name }}`.
-           - Includes the JAR file with dependencies.
+            This release was automatically generated from tag `${{ github.ref_name }}`.
+            - Includes platform-specific JARs for Windows, Linux, and macOS.
           files: ${{ env.RENAMED_JAR_PATH }}
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
