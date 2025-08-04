@@ -1,6 +1,8 @@
 # question-bank
 Small desktop application for having questions organized. Can be useful for a talking panel or a podcast
 
+<img src="./img/ScreenShot01.PNG.PNG">
+
 ## Features
 
 - Create question bank
