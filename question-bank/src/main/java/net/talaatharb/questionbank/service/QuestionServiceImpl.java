@@ -14,12 +14,12 @@ public class QuestionServiceImpl implements QuestionService {
     @Override
     public List<String> getQuestionBanks() {
         try {
-            log.info("Retrieving list of question banks");
+            log.debug("Retrieving list of question banks");
             List<String> jsonFiles = FileUtils.listJsonFilesInDataFolder();
-            log.info("Found {} question banks: {}", jsonFiles.size(), jsonFiles);
+            log.debug("Found {} question banks: {}", jsonFiles.size(), jsonFiles);
             return jsonFiles;
         } catch (IOException e) {
-            log.error("Error retrieving question banks", e);
+            log.trace("Error retrieving question banks", e);
             return List.of();
         }
     }
@@ -32,7 +32,7 @@ public class QuestionServiceImpl implements QuestionService {
         }
 
         try {
-            log.info("Loading questions from question bank: {}", questionBank);
+            log.debug("Loading questions from question bank: {}", questionBank);
             
             // Load the JSON file content using FileUtils
             String jsonContent = FileUtils.loadJsonFileAsString(questionBank);
@@ -40,12 +40,12 @@ public class QuestionServiceImpl implements QuestionService {
             // Convert JSON to QuestionDto list
             List<QuestionDto> questions = QuestionUtils.convertToQuestionDtoList(jsonContent);
             
-            log.info("Successfully loaded {} questions from question bank: {}", 
+            log.debug("Successfully loaded {} questions from question bank: {}", 
                     questions.size(), questionBank);
             
             return questions;
         } catch (IOException e) {
-            log.error("Error loading questions from question bank: {}", questionBank, e);
+            log.trace("Error loading questions from question bank: {}", questionBank, e);
             return List.of();
         }
     }
@@ -63,12 +63,12 @@ public class QuestionServiceImpl implements QuestionService {
         }
 
         try {
-            log.info("Saving {} questions to question bank: {}", questions.size(), questionBank);
+            log.debug("Saving {} questions to question bank: {}", questions.size(), questionBank);
             
             // Use FileUtils to save questions to JSON file
             FileUtils.saveQuestionsToJsonFile(questionBank, questions);
             
-            log.info("Successfully saved {} questions to question bank: {}", 
+            log.debug("Successfully saved {} questions to question bank: {}", 
                     questions.size(), questionBank);
                     
         } catch (IOException e) {

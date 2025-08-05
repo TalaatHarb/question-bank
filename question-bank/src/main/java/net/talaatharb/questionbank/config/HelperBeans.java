@@ -21,7 +21,7 @@ public class HelperBeans {
 
 	public static final ObjectMapper buildObjectMapper() {
 		if (objectMapper == null) {
-			log.info("Creating new ObjectMapper bean");
+			log.debug("Creating new ObjectMapper bean");
 			objectMapper = JsonMapper.builder().enable(MapperFeature.ACCEPT_CASE_INSENSITIVE_ENUMS) // ignore case
 					.enable(SerializationFeature.INDENT_OUTPUT) // pretty format for json
 					.addModule(new JavaTimeModule()) // time module
@@ -39,7 +39,7 @@ public class HelperBeans {
 	 */
 	public static final QuestionService buildQuestionService() {
 		if (questionService == null) {
-			log.info("Creating new QuestionService bean");
+			log.debug("Creating new QuestionService bean");
 			questionService = new QuestionServiceImpl();
 		} else {
 			log.debug("Reusing existing QuestionService bean");

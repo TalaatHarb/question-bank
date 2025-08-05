@@ -58,7 +58,7 @@ public class QuestionBankListController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        log.info("Initializing Question Bank List Controller");
+        log.debug("Initializing Question Bank List Controller");
         setupEventHandlers();
     }
 
@@ -90,7 +90,7 @@ public class QuestionBankListController implements Initializable {
     public void openSelectedBank() {
         String selectedBank = questionBankListView.getSelectionModel().getSelectedItem();
         if (selectedBank != null && sceneManager != null) {
-            log.info("Opening question bank: {}", selectedBank);
+            log.debug("Opening question bank: {}", selectedBank);
             sceneManager.switchToQuestionViewer(selectedBank);
         }
     }
@@ -98,7 +98,7 @@ public class QuestionBankListController implements Initializable {
     public void editSelectedBank() {
         String selectedBank = questionBankListView.getSelectionModel().getSelectedItem();
         if (selectedBank != null && sceneManager != null) {
-            log.info("Editing question bank: {}", selectedBank);
+            log.debug("Editing question bank: {}", selectedBank);
             sceneManager.switchToQuestionEditor(selectedBank);
         }
     }
@@ -127,7 +127,7 @@ public class QuestionBankListController implements Initializable {
                 List<QuestionDto> emptyQuestions = List.of();
                 questionService.saveQuestions(newBankName, emptyQuestions);
                 
-                log.info("Created new question bank: {}", newBankName);
+                log.debug("Created new question bank: {}", newBankName);
                 statusLabel.setText("Created new question bank: " + newBankName);
                 
                 // Refresh the list to show the new bank
@@ -139,7 +139,7 @@ public class QuestionBankListController implements Initializable {
                 }
                 
             } catch (Exception e) {
-                log.error("Error creating new question bank: {}", newBankName, e);
+                log.debug("Error creating new question bank: {}", newBankName, e);
                 statusLabel.setText("Error creating question bank: " + e.getMessage());
             }
         }
@@ -153,9 +153,9 @@ public class QuestionBankListController implements Initializable {
                 questionBankListView.setItems(observableList);
                 
                 statusLabel.setText(String.format("Found %d question banks", questionBanks.size()));
-                log.info("Refreshed question banks, found {} banks", questionBanks.size());
+                log.debug("Refreshed question banks, found {} banks", questionBanks.size());
             } catch (Exception e) {
-                log.error("Error refreshing question banks", e);
+                log.debug("Error refreshing question banks", e);
                 statusLabel.setText("Error loading question banks");
             }
         }

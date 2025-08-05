@@ -31,7 +31,7 @@ public class MainUiController implements Initializable, SceneManager {
     
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        log.info("Initializing UI application Main window controller...");
+        log.debug("Initializing UI application Main window controller...");
         
         // Initialize services
         questionService = HelperBeans.buildQuestionService();
@@ -39,7 +39,7 @@ public class MainUiController implements Initializable, SceneManager {
 
     public void setPrimaryStage(Stage primaryStage) {
         this.primaryStage = primaryStage;
-        log.info("Primary stage set, starting with question bank list scene");
+        log.debug("Primary stage set, starting with question bank list scene");
         
         // Start with the question bank list scene
         switchToQuestionBankList();
@@ -63,9 +63,9 @@ public class MainUiController implements Initializable, SceneManager {
                 primaryStage.setTitle("Question Bank Manager - Question Banks");
             }
             
-            log.info("Switched to question bank list scene");
+            log.debug("Switched to question bank list scene");
         } catch (IOException e) {
-            log.error("Error switching to question bank list scene", e);
+            log.debug("Error switching to question bank list scene", e);
         }
     }
 
@@ -88,9 +88,9 @@ public class MainUiController implements Initializable, SceneManager {
                 primaryStage.setTitle("Question Bank Manager - Viewer: " + questionBank);
             }
             
-            log.info("Switched to question viewer scene for bank: {}", questionBank);
+            log.debug("Switched to question viewer scene for bank: {}", questionBank);
         } catch (IOException e) {
-            log.error("Error switching to question viewer scene", e);
+            log.debug("Error switching to question viewer scene", e);
         }
     }
 
@@ -113,9 +113,9 @@ public class MainUiController implements Initializable, SceneManager {
                 primaryStage.setTitle("Question Bank Manager - Editor: " + questionBank);
             }
             
-            log.info("Switched to question editor scene for bank: {}", questionBank);
+            log.debug("Switched to question editor scene for bank: {}", questionBank);
         } catch (IOException e) {
-            log.error("Error switching to question editor scene", e);
+            log.debug("Error switching to question editor scene", e);
         }
     }
 }

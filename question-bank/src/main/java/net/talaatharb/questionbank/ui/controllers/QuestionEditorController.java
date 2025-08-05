@@ -94,7 +94,7 @@ public class QuestionEditorController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        log.info("Initializing Question Editor Controller");
+        log.debug("Initializing Question Editor Controller");
         setupEventHandlers();
     }
 
@@ -120,9 +120,9 @@ public class QuestionEditorController implements Initializable {
                 statusLabel.setText(String.format("Loaded %d questions from %s", questions.size(), questionBank));
                 displayCurrentQuestion();
             }
-            log.info("Loaded question bank for editing: {} with {} questions", questionBank, questions.size());
+            log.debug("Loaded question bank for editing: {} with {} questions", questionBank, questions.size());
         } catch (Exception e) {
-            log.error("Error loading question bank for editing: {}", questionBank, e);
+            log.debug("Error loading question bank for editing: {}", questionBank, e);
             statusLabel.setText("Error loading question bank");
             clearQuestionDisplay();
         }
@@ -227,7 +227,7 @@ public class QuestionEditorController implements Initializable {
         statusLabel.setText(String.format("Added new question. Total: %d", questions.size()));
         displayCurrentQuestion();
 
-        log.info("Added new question to bank: {}", currentQuestionBank);
+        log.debug("Added new question to bank: {}", currentQuestionBank);
     }
 
     public void deleteCurrentQuestion() {
@@ -249,7 +249,7 @@ public class QuestionEditorController implements Initializable {
             hasUnsavedChanges = true;
             updateSaveButtonState();
 
-            log.info("Deleted question {} from bank: {}", currentQuestionIndex + 1, currentQuestionBank);
+            log.debug("Deleted question {} from bank: {}", currentQuestionIndex + 1, currentQuestionBank);
         }
     }
 
@@ -269,9 +269,9 @@ public class QuestionEditorController implements Initializable {
                 hasUnsavedChanges = false;
                 updateSaveButtonState();
                 statusLabel.setText("Question bank saved successfully");
-                log.info("Saved question bank: {} with {} questions", currentQuestionBank, questions.size());
+                log.debug("Saved question bank: {} with {} questions", currentQuestionBank, questions.size());
             } catch (Exception e) {
-                log.error("Error saving question bank: {}", currentQuestionBank, e);
+                log.debug("Error saving question bank: {}", currentQuestionBank, e);
                 statusLabel.setText("Error saving question bank");
             }
         }
@@ -292,7 +292,7 @@ public class QuestionEditorController implements Initializable {
         }
 
         if (sceneManager != null) {
-            log.info("Returning to question bank list");
+            log.debug("Returning to question bank list");
             sceneManager.switchToQuestionBankList();
         }
     }

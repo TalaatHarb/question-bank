@@ -61,7 +61,7 @@ public class QuestionViewerController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        log.info("Initializing Question Viewer Controller");
+        log.debug("Initializing Question Viewer Controller");
         setupEventHandlers();
     }
 
@@ -85,9 +85,9 @@ public class QuestionViewerController implements Initializable {
                 statusLabel.setText(String.format("Loaded %d questions from %s", questions.size(), questionBank));
                 displayCurrentQuestion();
             }
-            log.info("Loaded question bank: {} with {} questions", questionBank, questions.size());
+            log.debug("Loaded question bank: {} with {} questions", questionBank, questions.size());
         } catch (Exception e) {
-            log.error("Error loading question bank: {}", questionBank, e);
+            log.debug("Error loading question bank: {}", questionBank, e);
             statusLabel.setText("Error loading question bank");
             clearQuestionDisplay();
         }
@@ -139,7 +139,7 @@ public class QuestionViewerController implements Initializable {
 
     public void goBackToList() {
         if (sceneManager != null) {
-            log.info("Returning to question bank list");
+            log.debug("Returning to question bank list");
             sceneManager.switchToQuestionBankList();
         }
     }
