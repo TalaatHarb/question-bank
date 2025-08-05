@@ -51,7 +51,7 @@ public class QuestionServiceImpl implements QuestionService {
     }
 
     @Override
-    public void saveQuestions(String questionBank, List<QuestionDto> questions) {
+    public void saveQuestions(String questionBank, List<QuestionDto> questions) throws IOException {
         if (questionBank == null || questionBank.trim().isEmpty()) {
             log.error("Cannot save questions: question bank name is null or empty");
             throw new IllegalArgumentException("Question bank name cannot be null or empty");
@@ -73,7 +73,7 @@ public class QuestionServiceImpl implements QuestionService {
                     
         } catch (IOException e) {
             log.error("Error saving questions to question bank: {}", questionBank, e);
-            throw new RuntimeException("Failed to save questions to question bank: " + questionBank, e);
+            throw new IOException("Failed to save questions to question bank: " + questionBank, e);
         }
     }
 } 

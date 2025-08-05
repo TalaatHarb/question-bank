@@ -11,6 +11,7 @@ import static org.mockito.Mockito.reset;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
+import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
 
@@ -141,7 +142,7 @@ class QuestionEditorControllerTest extends ApplicationTest {
     }
 
     @Test
-    void testSaveCurrentQuestion_WithValidQuestion() {
+    void testSaveCurrentQuestion_WithValidQuestion() throws IOException {
         // Given
         setupControllerWithQuestions();
         controller.loadQuestionBank("test-bank.json");
@@ -183,7 +184,7 @@ class QuestionEditorControllerTest extends ApplicationTest {
     }
 
     @Test
-    void testSaveQuestionBank_WithValidData() {
+    void testSaveQuestionBank_WithValidData() throws IOException {
         // Given
         setupControllerWithQuestions();
         controller.loadQuestionBank("test-bank.json");
@@ -197,7 +198,7 @@ class QuestionEditorControllerTest extends ApplicationTest {
     }
 
     @Test
-    void testSaveQuestionBank_WithException() {
+    void testSaveQuestionBank_WithException() throws IOException{
         // Given
         setupControllerWithQuestions();
         controller.loadQuestionBank("test-bank.json");
